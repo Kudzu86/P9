@@ -90,26 +90,8 @@ Pour installer et exécuter ce projet sur votre machine locale, suivez les étap
 
 Après avoir démarré le serveur, vous pouvez vous inscrire ou vous connecter pour commencer à utiliser l'application. Vous pourrez alors créer des billets, suivre d'autres utilisateurs et consulter leur contenu dans votre flux.
 
-## Contribuer
-
-Si vous souhaitez contribuer à ce projet, veuillez suivre ces étapes :
-
-1. Fork ce dépôt.
-2. Créez une nouvelle branche pour votre fonctionnalité ou correctif :
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
-3. Effectuez vos modifications et ajoutez des commits.
-4. Poussez vos modifications :
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
-5. Créez une Pull Request.
 
 ## Auteurs
 
 - **Kudzu86** - *Développeur principal* - [Kudzu86](https://github.com/Kudzu86)
 
-## Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
