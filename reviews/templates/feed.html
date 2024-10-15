@@ -1,14 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}Feed{% endblock %}
+{% block title %}Mon Flux{% endblock %}
 
 {% block content %}
-    <h2>Mon Feed</h2>
-    {% for post in posts %}
-        {% if post.content_type == 'TICKET' %}
-            {% include 'snippets/ticket_snippet.html' with ticket=post %}
-        {% elif post.content_type == 'REVIEW' %}
-            {% include 'snippets/review_snippet.html' with review=post %}
+    <div class="feed-container">
+        <h2>Mon Flux</h2>
+
+        <!-- Afficher un message de bienvenue -->
+        <p>Bienvenue {{ user.username }} ! Voici les billets et critiques des utilisateurs que vous suivez.</p>
+
+        <!-- Lien de déconnexion avec confirmation -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">Déconnexion</button>
+        </form>
+
+        <!-- Bouton pour créer un nouveau billet -->
+        <a href="{% url 'add_ticket' %}" class="btn btn-primary my-3">Créer un nouveau billet</a>
+
+        <!-- Vérifier si le flux contient des posts -->
+        {% if posts %}
+            <div class="posts-list">
+                <!-- Boucle sur tous les posts -->
+                {% for post in posts %}
+                    <div class="post-item mb-4">
+                        <!-- Si le post est un billet -->
+                        {% if post.content_type == 'TICKET' %}
+                            <div class="ticket">
+                                <h3>
+                                    <a href="{% url 'edit_ticket' post.id %}">{{ post.title }}</a>
+                                </h3>
+                                <p>{{ post.description }}</p>
+                                <p>Posté par : {{ post.user.username }}</p>  <!-- Affiche le nom de l'utilisateur -->
+                                <p>Date : {{ post.time_created }}</p>
+                            </div>
+                        
+                        <!-- Si le post est une critique -->
+                        {% elif post.content_type == 'REVIEW' %}
+                            <div class="review">
+                                <h3>
+                                    <a href="{% url 'edit_comment' post.id %}">{{ review.headline }}</a>
+                                </h3>
+                                <p>{{ review.body }}</p>
+                                <p>Note : {{ review.rating }} / 5</p>
+                                <p>Posté par : {{ review.user.username }}</p>  <!-- Affiche le nom de l'utilisateur -->
+                                <p>Date : {{ review.time_created }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Message si aucun post n'est disponible dans le flux -->
+            <p>Aucun billet ou critique à afficher. Suivez plus d'utilisateurs ou créez un billet pour voir plus de contenu.</p>
         {% endif %}
-    {% endfor %}
+    </div>
 {% endblock %}

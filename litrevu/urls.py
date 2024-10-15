@@ -17,11 +17,23 @@ Including another URLconf
 # litrevu/urls.py (ou your_app_name/urls.py si vous souhaitez garder le nom de votre application)
 from django.contrib import admin
 from django.urls import path
-from reviews import views  # Assurez-vous d'importer vos vues
+from reviews import views  
+from django.contrib.auth.views import LogoutView  # Importation de la vue de déconnexion
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # URL pour accéder à l'interface d'administration
+    path('admin/', admin.site.urls, name='admin'),  # URL pour accéder à l'interface d'administration
     path('login/', views.login_view, name='login'),  # Route pour la connexion
-    path('feed/', views.feed, name='feed'),  # Route pour le fil d'actualité
+    path('', views.feed, name='feed'),  # Route pour le fil d'actualité
     path('register/', views.register_view, name='register'),
+    path('logout/', LogoutView.as_view(), name='logout'),  # Route pour la déconnexion
+    path('ticket/add/', views.add_ticket, name='add_ticket'),  # Route pour ajouter un billet
+    path('ticket/<int:ticket_id>/edit/', views.edit_ticket, name='edit_ticket'),  # Route pour modifier un billet existant
+    path('ticket/<int:ticket_id>/delete/', views.delete_ticket, name='delete_ticket'),  # Route pour supprimer un billet
+    path('add_comment/', views.add_comment, name='add_comment'),
+    path('edit_comment/<int:comment_id>/', views.edit_comment, name='edit_comment'),
+    path('delete_comment/<int:comment_id>/', views.delete_comment, name='delete_comment'),
+    path('follows/', views.list_followed_users, name='list_followed_users'),  # URL pour lister les utilisateurs suivis
+    path('follows/add/', views.add_follow, name='add_follow'),  # URL pour ajouter un utilisateur suivi
+    path('follows/remove/<int:follow_id>/', views.remove_follow, name='remove_follow'),  # URL pour supprimer un utilisateur suivi
 ]
